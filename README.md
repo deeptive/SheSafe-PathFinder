@@ -6,10 +6,10 @@
 **PathfinderApp** is a Java-based GUI application designed to compute the *safest path* between two nodes in a graph using risk scores as edge weights. It simulates a real-world application like emergency evacuation planning, secure routing, or urban navigation where safety is prioritized over distance.
 
 The graph's nodes and edges are stored in a **MySQL** database and loaded dynamically at runtime. Each edge has a **risk score** calculated from various risk parameters (`CSS`, `SLF`, `PPI`, `PPS`). 
-CSS- Crime Severity Score
-SLF- Street Light Factor
-PPI- Police Present Index
-PPS- Public Survelliance Score
+CSS- Crime Severity Score,
+SLF- Street Light Factor,
+PPI- Police Present Index,
+PPS- Public Survelliance Score,
 Using **Dijkstra's algorithm**, the app determines the path with the lowest total risk.
 
 With an intuitive **Java Swing GUI**, users can:
