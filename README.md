@@ -2,7 +2,7 @@
 # PathfinderApp 🚦
 
 ## 🧠 Project Description
-
+Personal safety during navigation, especially for women, is a growing concern in urban environments where traditional navigation apps overlook safety factors. **Pathfinder** addresses this gap by providing the safest routes using real-time risk analysis and offering emergency support features, ensuring secure travel for everyone — with a special focus on women's safety.
 **PathfinderApp** is a Java-based GUI application designed to compute the *safest path* between two nodes in a graph using risk scores as edge weights. It simulates a real-world application like emergency evacuation planning, secure routing, or urban navigation where safety is prioritized over distance.
 
 The graph's nodes and edges are stored in a **MySQL** database and loaded dynamically at runtime. Each edge has a **risk score** calculated from various risk parameters (`CSS`, `SLF`, `PPI`, `PPS`). 
