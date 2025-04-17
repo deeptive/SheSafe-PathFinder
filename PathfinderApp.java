@@ -19,6 +19,7 @@ class Graph {
         adjList.computeIfAbsent(from, k -> new ArrayList<>()).add(new Edge(to, riskScore));
         adjList.computeIfAbsent(to, k -> new ArrayList<>()).add(new Edge(from, riskScore));
     }
+    
 
     public void loadFromDB(Connection conn) {
         String query = "SELECT n1.NodeName AS source, n2.NodeName AS destination, " +

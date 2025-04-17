@@ -33,43 +33,81 @@ public class PathfinderUI {
     }
 
     private void initializeUI() {
-        mainFrame = new JFrame("SheSafe");
+        Color backgroundColor = new Color(0xF5F5DC);
+        mainFrame = new JFrame("PathFinder");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(900, 650);
+        mainFrame.setSize(1200, 800);
         mainFrame.setLocationRelativeTo(null);
-
-        // Create main panel with card layout
+    
+        // Initialize cardLayout
+        cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
-        
+        mainPanel.setBackground(backgroundColor);
+    
+        // Create title panel
+        JPanel titlePanel = new JPanel();
+        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20)); // Padding around title panel
+        titlePanel.setBackground(backgroundColor);
+
+        // Title label
+        JLabel titleLabel = new JLabel("PathFinder");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 35));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    
+        // Description text area (for wrapping long description)
+        JTextArea descriptionArea = new JTextArea(
+            "Pathfinder is dedicated to enhancing women's safety by helping them find the safest routes, "
+            + "locate nearby emergency contacts, and assess the safety of different locations. "
+            + "We aim to make every journey safer and more secure."
+        );
+        descriptionArea.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        descriptionArea.setLineWrap(true);
+        descriptionArea.setFocusable(false);
+        descriptionArea.setWrapStyleWord(true);
+        descriptionArea.setEditable(false);
+        descriptionArea.setOpaque(false);
+        descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
+        descriptionArea.setMaximumSize(new Dimension(800, 100)); // Width and height constraint
+    
+        // Add components to title panel
+        titlePanel.add(titleLabel);
+        titlePanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        titlePanel.add(descriptionArea);
+    
         // Create and add all panels
         createMenuPanel();
         createFindPathPanel();
         createEmergencyPanel();
         createRatingPanel();
         createTopLocationsPanel();
-        
-        mainFrame.add(mainPanel);
-        
-        // Show menu panel first
+    
+        // Container panel to hold title + main content
+        JPanel containerPanel = new JPanel(new BorderLayout());
+        containerPanel.add(titlePanel, BorderLayout.NORTH);
+        containerPanel.add(mainPanel, BorderLayout.CENTER);
+    
+        // Add container to main frame
+        mainFrame.add(containerPanel);
+    
+        // Show the menu panel first
         cardLayout.show(mainPanel, "menu");
         mainFrame.setVisible(true);
     }
+    
+    
 
     private void createMenuPanel() {
+        Color backgroundColor = new Color(0xF5F5DC);
         JPanel menuPanel = new JPanel(new BorderLayout());
-        menuPanel.setBackground(new Color(240, 245, 250));
+        menuPanel.setBackground(backgroundColor);
         
-        // Header
-        JLabel header = new JLabel("SheSafe", SwingConstants.CENTER);
-        header.setFont(new Font("Segoe UI", Font.BOLD, 28));
-        header.setBorder(BorderFactory.createEmptyBorder(30, 0, 40, 0));
-        header.setForeground(new Color(0, 82, 165));
-        menuPanel.add(header, BorderLayout.NORTH);
+ 
         
         // Button panel
         JPanel buttonPanel = new JPanel(new GridLayout(4, 1, 10, 15));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 100, 50, 100));
-        buttonPanel.setBackground(new Color(240, 245, 250));
+        buttonPanel.setBackground(backgroundColor);
         
         // Style for all buttons
         Font buttonFont = new Font("Segoe UI", Font.PLAIN, 18);
@@ -138,16 +176,20 @@ public class PathfinderUI {
     }
 
     private void createFindPathPanel() {
+        Color lightPink = new Color(0xFFEBEF);
         JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(lightPink);
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
         // Back button
         JButton backBtn = new JButton("← Back to Menu");
+        backBtn.setBackground(new Color(0xF5F5DC));
         backBtn.addActionListener(e -> cardLayout.show(mainPanel, "menu"));
         panel.add(backBtn, BorderLayout.NORTH);
         
         // Main content
         JPanel contentPanel = new JPanel(new GridBagLayout());
+        contentPanel.setBackground(lightPink);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
@@ -183,16 +225,22 @@ public class PathfinderUI {
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         JButton findBtn = new JButton("Find Path");
+        findBtn.setBackground(new Color(0xF5F5DC));
         contentPanel.add(findBtn, gbc);
         
         // Results area
+        
+        
+       
         gbc.gridy++;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         JTextArea resultsArea = new JTextArea();
         resultsArea.setEditable(false);
-        resultsArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        resultsArea.setFont(new Font("SansSerif", Font.BOLD, 16));
+        resultsArea.setForeground(Color.DARK_GRAY);
+        resultsArea.setBackground(lightPink); 
         resultsArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         JScrollPane scrollPane = new JScrollPane(resultsArea);
         contentPanel.add(scrollPane, gbc);
@@ -210,7 +258,11 @@ public class PathfinderUI {
             
             try {
                 Result result = graph.dijkstra(source, destination);
-                resultsArea.setText(result.toString());
+                StringBuilder output = new StringBuilder();
+                output.append(result.toString());
+                output.append("\n\n💬 Tip: Stay aware and keep your emergency contacts handy.\n");
+                output.append("Have a safe journey! 🌸");
+                resultsArea.setText(output.toString());
             } catch (Exception ex) {
                 resultsArea.setText("Error finding path: " + ex.getMessage());
             }
@@ -226,20 +278,23 @@ public class PathfinderUI {
     private void createEmergencyPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panel.setBackground(new Color(0xFFEBEF));
         
         // Back button
         JButton backBtn = new JButton("← Back to Menu");
+        backBtn.setBackground(new Color(0xF5F5DC));
         backBtn.addActionListener(e -> cardLayout.show(mainPanel, "menu"));
         panel.add(backBtn, BorderLayout.NORTH);
         
         // Main content
         JPanel contentPanel = new JPanel(new GridBagLayout());
+        contentPanel.setBackground(new Color(0xFFEBEF)); 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
         
         JLabel title = new JLabel("Emergency Contacts");
-        title.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        title.setFont(new Font("Segoe UI", Font.BOLD, 25));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
@@ -260,6 +315,7 @@ public class PathfinderUI {
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         JButton findBtn = new JButton("Find Emergency Contacts");
+        findBtn.setBackground(new Color(0xF5F5DC));
         findBtn.addActionListener(e -> {
             String location = locationField.getText();
             
@@ -279,8 +335,9 @@ public class PathfinderUI {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         JTextArea resultsArea = new JTextArea();
+        resultsArea.setBackground(new Color(0xFFEBEF)); 
         resultsArea.setEditable(false);
-        resultsArea.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        resultsArea.setFont(new Font("Segoe UI", Font.BOLD, 20));
         JScrollPane scrollPane = new JScrollPane(resultsArea);
         contentPanel.add(scrollPane, gbc);
         
@@ -292,7 +349,7 @@ public class PathfinderUI {
 
     private void fetchEmergencyContacts(String locationName) {
         JPanel emergencyPanel = (JPanel) panels.get("emergency");
-        JTextArea resultsArea = (JTextArea) ((JScrollPane) ((JPanel) emergencyPanel.getComponent(1)).getComponent(5)).getViewport().getView();
+        JTextArea resultsArea = (JTextArea) ((JScrollPane) ((JPanel) emergencyPanel.getComponent(1)).getComponent(4)).getViewport().getView();
         
         String query = "SELECT ec.contact_name, ec.phone_number " +
                      "FROM emergencycontacts ec " +
@@ -328,14 +385,16 @@ public class PathfinderUI {
     private void createRatingPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
+        panel.setBackground(new Color(0xFFEBEF)); 
         // Back button
         JButton backBtn = new JButton("← Back to Menu");
+        backBtn.setBackground(new Color(0xF5F5DC));
         backBtn.addActionListener(e -> cardLayout.show(mainPanel, "menu"));
         panel.add(backBtn, BorderLayout.NORTH);
         
         // Main content
         JPanel contentPanel = new JPanel(new GridBagLayout());
+        contentPanel.setBackground(new Color(0xFFEBEF)); 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
@@ -372,6 +431,7 @@ public class PathfinderUI {
         
         gbc.gridx++;
         JComboBox<String> ratingCombo = new JComboBox<>(new String[]{"Safe", "Neutral", "Unsafe"});
+        ratingCombo.setBackground(new Color(0xFFEBEF)); 
         contentPanel.add(ratingCombo, gbc);
         
         // Submit button
@@ -380,6 +440,7 @@ public class PathfinderUI {
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         JButton submitBtn = new JButton("Submit Rating");
+        submitBtn.setBackground(new Color(0xF5F5DC));
         submitBtn.addActionListener(e -> {
             String userId = userIdField.getText();
             String location = locationField.getText();
@@ -418,7 +479,7 @@ public class PathfinderUI {
                         insertStmt.setString(2, userId);
                         insertStmt.setString(3, rating);
                         insertStmt.executeUpdate();
-                        JOptionPane.showMessageDialog(mainFrame, "Rating submitted successfully!", 
+                        JOptionPane.showMessageDialog(mainFrame, "Rating submitted successfully!, Thank you for your feedback", 
                             "Success", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else {
@@ -435,15 +496,16 @@ public class PathfinderUI {
     private void createTopLocationsPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
+        panel.setBackground(new Color(0xFFEBEF)); 
         // Back button
         JButton backBtn = new JButton("← Back to Menu");
+        backBtn.setBackground(new Color(0xF5F5DC));
         backBtn.addActionListener(e -> cardLayout.show(mainPanel, "menu"));
         panel.add(backBtn, BorderLayout.NORTH);
         
         // Main content
         JPanel contentPanel = new JPanel(new BorderLayout());
-        
+        contentPanel.setBackground(new Color(0xFFEBEF)); 
         JLabel title = new JLabel("Top 5 Safest Locations", SwingConstants.CENTER);
         title.setFont(new Font("Segoe UI", Font.BOLD, 24));
         title.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
@@ -451,7 +513,8 @@ public class PathfinderUI {
         
         JTextArea resultsArea = new JTextArea();
         resultsArea.setEditable(false);
-        resultsArea.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        resultsArea.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        resultsArea.setBackground(new Color(0xFFEBEF)); 
         JScrollPane scrollPane = new JScrollPane(resultsArea);
         contentPanel.add(scrollPane, BorderLayout.CENTER);
         
