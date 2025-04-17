@@ -1,7 +1,7 @@
 # SheSafe-PathFinder
-# PathfinderApp 🚦
+# PathfinderApp 
 
-## 🧠 Project Description
+##  Project Description
 Personal safety during navigation, especially for women, is a growing concern in urban environments where traditional navigation apps overlook safety factors. **Pathfinder** addresses this gap by providing the safest routes using real-time risk analysis and offering emergency support features, ensuring secure travel for everyone — with a special focus on women's safety.
 **PathfinderApp** is a Java-based GUI application designed to compute the *safest path* between two nodes in a graph using risk scores as edge weights. It simulates a real-world application like emergency evacuation planning, secure routing, or urban navigation where safety is prioritized over distance.
 
@@ -22,28 +22,28 @@ With an intuitive **Java Swing GUI**, users can:
 
 ---
 
-## ⚙️ Features
+##  Features
 
-### 🔍 Safest Path Finder
+###  Safest Path Finder
 - Computes the safest path between any two locations based on cumulative risk score.
 - Utilizes Dijkstra’s algorithm to ensure optimal path selection.
 
-### 🚨 Emergency Mode
+###  Emergency Mode
 - Users can click an **"Emergency" button**.
 - Based on the user’s **current location**, emergency contacts (like police, hospital, fire station) for that area are fetched from the database and displayed.
 
-### ⭐ Location Safety Rating
+###  Location Safety Rating
 - Users can **rate the safety** of a location (1 to 5 stars).
 - Ratings are stored in the database.
 - A section displays the **Top 5 Safest Locations** based on average user ratings.
 
-### 🧭 User-Friendly Interface
+###  User-Friendly Interface
 - Java Swing-based interface for easy input and visual feedback.
 - Scrollable result area with clearly formatted output.
 
 ---
 
-## 🗃️ Data Structures Used
+##  Data Structures Used
 
 ### 1. **Graph (Adjacency List)**
 - `Map<String, List<Edge>>`: Represents the entire network of nodes and edges.
@@ -63,7 +63,7 @@ With an intuitive **Java Swing GUI**, users can:
 
 ---
 
-## 🧩 Technologies Used
+##  Technologies Used
 
 - **Java 11+**
 - **Swing (GUI)**
@@ -71,7 +71,7 @@ With an intuitive **Java Swing GUI**, users can:
 - **MySQL**
 
 
-# 🛡️ PathFinder Database Schema
+#  PathFinder Database Schema
 
 PathFinder is a safety-focused navigation system designed to guide users through the safest routes within a city or region. It combines real-time crowd-sourced data, emergency services integration, and smart pathfinding algorithms to ensure user safety during travel.
 
@@ -79,7 +79,7 @@ This repository contains the **MySQL database schema** used by the PathFinder sy
 
 ---
 
-## 📦 Tables Overview
+##  Tables Overview
 
 ### 1. `nodes`
 Represents key locations or landmarks (e.g., intersections, known places) in the pathfinding network.
